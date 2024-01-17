@@ -71,6 +71,10 @@ public class AdHocCommandIntegrationTest extends AbstractSmackIntegrationTest {
                 throw new IllegalStateException("Field " + args[i] + " not found in form");
             }
             if (NON_STRING_FORM_FIELD_TYPES.contains(field.getType())){
+                if(args[i + 1] == null){
+                    form.setAnswer(args[i], Collections.emptyList());
+                    continue;
+                }
                 form.setAnswer(args[i], Stream.of(args[i + 1]
                     .split(",", -1))
                     .map(String::trim)
@@ -140,9 +144,8 @@ public class AdHocCommandIntegrationTest extends AbstractSmackIntegrationTest {
 
         //Clean-up
         //TODO: FIND A WAY TO RETURN THE BLACKLIST TO AN EMPTY STATE
-        
-        //executeCommandWithArgs(EDIT_BLOCKED_LIST, adminConnection.getUser().asEntityBareJid(),
-        //    "blacklistjids", null
-        //);
+        executeCommandWithArgs(EDIT_BLOCKED_LIST, adminConnection.getUser().asEntityBareJid(),
+            "blacklistjids", null
+        );
     }
 }
